@@ -4,7 +4,7 @@
 #------行政区划------
 ---
 name: place
-version: "2025-05-10 11:29"
+version: "2025-05-10 21:23"
 sort: by_weight
 ...
 阿坝	ā bà	472
@@ -2060,7 +2060,7 @@ sort: by_weight
 石阡	shí qiān	367
 石渠	shí qú	364
 石泉	shí quán	433
-石狮	shí shí	510
+石狮	shí shī	510
 石首	shí shǒu	387
 石台	shí tái	375
 狮潭	shī tán	363
@@ -17857,7 +17857,7 @@ sort: by_weight
 甘泉坊村	gān quán fāng cūn	1
 甘泉井村	gān quán jǐng cūn	1
 甘泉庄村	gān quán zhuāng cūn	1
-干湿沟村	gàn shī gōu cūn	1
+干湿沟村	gān shī gōu cūn	1
 干石览镇	gàn shí lǎn zhèn	1
 甘什黎村	gān shí lí cūn	105
 甘树湾村	gān shù wān cūn	1
@@ -17889,7 +17889,7 @@ sort: by_weight
 干峪沟村	gàn yù gōu cūn	216
 甘峪沟村	gān yù gōu cūn	105
 甘峪口村	gān yù kǒu cūn	116
-干鱼头村	gàn yú tóu cūn	1
+干鱼头村	gān yú tóu cūn	1
 甘泽堡村	gān zé bǎo cūn	1
 甘寨堡村	gān zhài bǎo cūn	1
 干召庙镇	gàn zhào miào zhèn	58
@@ -37746,7 +37746,7 @@ sort: by_weight
 西石桥村	xī shí qiáo cūn	77
 西石桥镇	xī shí qiáo zhèn	1
 西石泉村	xī shí quán cūn	1
-西石狮村	xī shí shí cūn	1
+西石狮村	xī shí shī cūn	1
 西石塔村	xī shí tǎ cūn	1
 西石现村	xī shí xiàn cūn	1
 西石羊村	xī shí yáng cūn	1
