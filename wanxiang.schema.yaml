@@ -37,7 +37,7 @@ switches:
     states: [ ¥, $ ]
   - options: [ s2s, s2t, s2hk, s2tw ]
     reset: 0
-    states: [ 简, 繁, 港, 臺 ]
+    states: [ 简体, 通繁, 港繁, 臺繁 ]
   - name: full_shape
     states: [ 半, 全 ]
   - name: emoji
