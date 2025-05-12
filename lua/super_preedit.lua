@@ -3,7 +3,7 @@ local function modify_preedit_filter(input, env)
     local delimiter = config:get_string('speller/delimiter') or " '"
 
     -- 从 YAML 配置读取参数
-    local tone_isolate = config:get_bool("speller/tone_isolate") or true  -- 是否将数字声调从转换后拼音中隔离出来（true=隔离， false 直接参与转换）
+    local tone_isolate = config:get_bool("speller/tone_isolate")      -- 是否将数字声调从转换后拼音中隔离出来（true=隔离， false 直接参与转换）
     local visual_delim = config:get_string("speller/visual_delimiter") or " "  -- 定义转换后的分隔符号，如果方案中设置的'作为分隔符号那么在变成拼音后视觉拥挤
 
     env.settings = { tone_display = env.engine.context:get_option("tone_display") } or false
