@@ -18,6 +18,14 @@
 
 **1. 如何使用：**
 
+不了解rime基础的可以参考友情链接：
+
+[oh my rime](https://www.mintimate.cc/zh/guide/installRime.html) 
+
+[rime参数配置](https://xishansnow.github.io/posts/41ac964d.html)
+
+整个rime配置生态都是通的，里面有非常完整的使用方法，我不想重复造轮子，如果看完了还能想起万象，欢迎来到你的进阶之旅！
+
 **①第一种方法：快速开始：**
 
  首先
