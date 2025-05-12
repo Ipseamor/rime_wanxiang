@@ -434,14 +434,13 @@ speller:
     - xlit/①②③④/7890
     - derive/^ng(\d)$/eng$1/
     - xform/^n(\d)/en$1/
-    - derive/(.+)(\d)/$1/
     - derive/([nl])ve(\d)/$1ue$2/                            #让üè兼容ue
     - derive/^([jqx])v(\d)$/$1u$2/
     - abbrev/^([qwrtypsdfghjklzxcbnm]).+$/$1/  #不携带元音的声母派生出首字母简码来
     - abbrev/^([qwrtypsdfghjklzxcbnm]).+(\d)$/$1$2/  #不携带元音的声母派生出首字母简码来+数字声调
     - abbrev/^([aoe])([ioun])(\d)$/$1/             #携带两个字符的元音首字母派生出简码来
     - abbrev/^([aoe])([ioun])(\d)$/$1$3/       #携带两个字符的元音首字母派生出简码来+数字声调
-
+    - derive/(.+)(\d)/$1/
 自然码: 
   __append:
     - xform/^([a-z]+)$/$1④/
