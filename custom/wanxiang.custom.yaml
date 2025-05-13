@@ -7,14 +7,14 @@ patch:
   cn_en/user_dict: en_dicts/zrm           # 可选的值有：en_dicts/pinyin， en_dicts/zrm， en_dicts/flypy ，en_dicts/mspy， en_dicts/sogou
   #通过下面的设置可以让你自己的文件引入而与仓库custom_phrase.txt不同，以后可以大胆覆盖更新
   custom_phrase/user_dict: custom_phrase    # 改成什么就需要手动创建 xxxxxx.txt 文件在用户目录
-    #下面是候选数量
+  #下面是候选数量
   menu/page_size: 6  #不要超过6，7890用于代表声调1234，6个管够你用了，如果你非要10个，不要问我😜。
   #下面用来改变你的windows小狼毫右下角软件图标
   #schema/+:
   #  icon: "icons/zhong.ico"
   #  ascii_icon: "icons/ying.ico"
   #下面这个可以改变tips上屏的按键
-  key_binder/tips_key: "period"   #修改时候去default找，默认是句号
+  key_binder/tips_key: "period"   #修改时候去default找按键名称，默认是句号
   #下面这个是修改快符的映射，按自己需求来
   quick_symbol_text:
     q: "‰"
@@ -57,3 +57,44 @@ patch:
   recognizer/patterns/quick_symbol: "^;.*$"
   #下面这个用来设置开启调频的时候哪些内容不调频
   translator/disable_user_dict_for_patterns: "^[a-z]{1,6}"
+  translator/enable_user_dict: false  # 是否开启自动调频用户词，如果你希望使用下面ac造词功能，请保持false，因为两个跨翻译器会造成词汇不能正常记录
+
+# 以下恢复ac造词功能，如果你不使用该功能，请直接删除段落---------------------------------
+  engine/segmentors/@before 5:
+    affix_segmentor@add_user_dict
+  engine/translators/@before 13:
+    script_translator@user_dict_set
+  engine/translators/@before 14:
+    script_translator@add_user_dict
+  recognizer/patterns/add_user_dict: "^ac[A-Za-z/`']*$"      #自造词引导方式
+  # 自定义词典 
+  user_dict_set:
+    dictionary: wanxiang
+    initial_quality: 0
+    enable_completion: false
+    enable_sentence: false
+    spelling_hints: 100
+    comment_format:
+    preedit_format:     #影响到输入框的显示和“Shift+回车”上屏的字符，交给super_preedit_pro处理
+      - xform/7/1/
+      - xform/8/2/
+      - xform/9/3/
+      - xform/0/4/
+    enable_user_dict: true
+    user_dict: zc
+  # 自定义词典加词(ac引导)
+  add_user_dict:
+    tag: add_user_dict
+    dictionary: wanxiang
+    initial_quality: -1
+    user_dict: zc
+    enable_charset_filter: false # 是否开启字符集过滤
+    enable_completion: true # 提前显示尚未输入完整码的字〔仅 table_translator 有效〕
+    enable_encoder: true # 是否开启自动造词〔仅 table_translator 有效〕
+    enable_sentence: true #  是否开启自动造句
+    enable_user_dict: true
+    encode_commit_history: false # 是否对已上屛词自动成词〔仅 table_translator 有效〕  
+    comment_format:
+    prefix: "ac"
+    tips: "〔自造词〕"
+#ac造词全功能段落结束---------------------------------------------------------------
