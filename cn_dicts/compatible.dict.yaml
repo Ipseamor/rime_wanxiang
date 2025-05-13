@@ -4,9 +4,11 @@
 #兼容词库，对于多字词汇两种读音的场景，手动维护到本表以及一些其他的杂项
 ---
 name: compatible
-version: "2025-05-12 23:15"
+version: "2025-05-13 07:09"
 sort: by_weight
 ...
+好高	hào gāo
+好强	hào qiáng
 攒个	cuán gè	391
 攒个	zǎn gè	391
 背着	bēi zhe
