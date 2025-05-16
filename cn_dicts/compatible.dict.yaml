@@ -7,11 +7,12 @@ name: compatible
 version: "LTS"
 sort: by_weight
 ...
-好高	hào gāo
-好强	hào qiáng
+公差	gōng chā	480
+好高	hào gāo	491
+好强	hào qiáng	485
 攒个	cuán gè	391
 攒个	zǎn gè	391
-背着	bēi zhe
+背着	bēi zhe	545
 外传	wài chuán	460
 长点儿	cháng diǎn ér	293
 长点儿	zhǎng diǎn ér	293
