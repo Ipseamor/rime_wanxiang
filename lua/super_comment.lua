@@ -12,70 +12,44 @@
 --  corrector_type: "{comment}"           # 新增一个提示类型，比如"【{comment}】" 
 --  candidate_length: 1                   # 候选词辅助码提醒的生效长度，0为关闭，但建议使用开关或者快捷键实现      
 
-
 -- #########################
 -- # 错音错字提示模块 (Corrector)
 -- #########################
 local CR = {}
 local corrections_cache = nil  -- 用于缓存已加载的词典
 
--- 加载纠正词典函数
-local function load_corrections(file_path)
-    if corrections_cache then return corrections_cache end
+function CR.init(env)
+    local auto_delimiter = env.settings.auto_delimiter or " "
+    local corrections_file_path = rime_api.get_user_data_dir() .. "/cn_dicts/corrections.dict.yaml"
+
+    -- 使用设置好的 corrector_type 和样式
+    CR.style = env.settings.corrector_type or '{comment}'
+    if corrections_cache then
+        CR.corrections = corrections_cache
+        return
+    end
 
     local corrections = {}
-    local file = io.open(file_path, "r")
+    local file = io.open(corrections_file_path, "r")
 
     if file then
         for line in file:lines() do
             if not line:match("^#") then
-                -- 使用制表符分隔字段
                 local text, code, weight, comment = line:match("^(.-)\t(.-)\t(.-)\t(.-)$")
                 if text and code then
-                    -- 去除首尾空格
                     text = text:match("^%s*(.-)%s*$")
                     code = code:match("^%s*(.-)%s*$")
                     comment = comment and comment:match("^%s*(.-)%s*$") or ""
-
-                    -- 存储到 corrections 表中，以 code 为键
+                    -- 用自动分隔符替换空格
+                    comment = comment:gsub("%s+", auto_delimiter)
+                    code = code:gsub("%s+", auto_delimiter)
                     corrections[code] = { text = text, comment = comment }
                 end
             end
         end
         file:close()
         corrections_cache = corrections
-    end
-    return corrections
-end
-function CR.init(env)
-    local config = env.engine.schema.config
-
-    -- 初始化 corrector_type 和样式
-    env.settings.corrector_type = (env.settings.corrector_type and env.settings.corrector_type:gsub('^*', '')) or '{comment}'
-    CR.style = config:get_string("super_comment/corrector_type") or '{comment}'
-
-    -- 仅在 corrections_cache 为 nil 时加载词典
-    if not corrections_cache then
-        -- 优先查找用户目录，再查系统目录
-        local function find_file(filename, subdir)
-            local user_path = rime_api.get_user_data_dir() .. "/" .. subdir .. "/" .. filename
-            local shared_path = rime_api.get_shared_data_dir() .. "/" .. subdir .. "/" .. filename
-
-            local file = io.open(user_path, "r")
-            if file then file:close(); return user_path end
-
-            file = io.open(shared_path, "r")
-            if file then file:close(); return shared_path end
-
-            return nil
-        end
-
-        local corrections_file_path = find_file("corrections.dict.yaml", "cn_dicts")
-        if corrections_file_path then
-            CR.corrections = load_corrections(corrections_file_path)
-        else
-            CR.corrections = {}
-        end
+        CR.corrections = corrections
     end
 end
 function CR.run(cand, env)
@@ -96,20 +70,15 @@ end
 local PY = {}
 
 function PY.run(cand, env, initial_comment)
-    local length = utf8.len(cand.text)
-    local final_comment = nil
-    -- 确保候选词长度检查使用从配置中读取的值
-    if env.settings.pinyinhint_enabled and length <= env.settings.candidate_length then
-        -- 直接将注释显示为最终注释
-        final_comment = initial_comment
+    local auto_delimiter = env.settings.auto_delimiter or " "
+    initial_comment = initial_comment:gsub(auto_delimiter, " ")
+
+    if env.settings.pinyinhint_enabled and utf8.len(cand.text) <= env.settings.candidate_length then
+        return initial_comment
     else
-        -- 如果候选词长度超过指定值，返回空字符串
-        final_comment = ""
+        return ""
     end
-
-    return final_comment or ""  -- 确保返回最终值
 end
-
 -- ################################
 -- 部件组字返回的注释（radical_pinyin）
 -- ################################
@@ -117,12 +86,10 @@ local AZ = {}
 -- 处理函数，只负责处理候选词的注释
 function AZ.run(cand, env, initial_comment)
     local final_comment
-
     -- 如果注释不为空，添加括号
     if initial_comment and initial_comment ~= "" then
         final_comment = string.format("〔 %s 〕", initial_comment)
     end
-
     return final_comment  -- 返回最终注释
 end
 -- #########################
@@ -132,12 +99,15 @@ end
 local ZH = {}
 function ZH.init(env)
     local config = env.engine.schema.config
-
+    local delimiter = config:get_string('speller/delimiter') or " '"
+    local auto_delimiter = delimiter:sub(1, 1)
     -- 检查开关状态
     local is_pinyinhint_enabled = env.engine.context:get_option("pinyinhint")
 
     -- 设置辅助码功能
     env.settings = {
+        delimiter = delimiter,
+        auto_delimiter = auto_delimiter,
         corrector_enabled = config:get_bool("super_comment/corrector") or true,  -- 错音错词提醒功能
         corrector_type = config:get_string("super_comment/corrector_type") or "{comment}",  -- 提示类型
         pinyinhint_enabled = is_pinyinhint_enabled,  -- 读音显示功能通过开关控制
@@ -151,13 +121,12 @@ function ZH.func(input, env)
     CR.init(env)
 
     --声明反查模式的tag状态
-	local seg = env.engine.context.composition:back()
-	env.is_radical_mode = seg and (
-		seg:has_tag("radical_lookup") 
-		or seg:has_tag("reverse_stroke") 
-		or seg:has_tag("add_user_dict")
-	) or false
-
+    local seg = env.engine.context.composition:back()
+    env.is_radical_mode = seg and (
+        seg:has_tag("radical_lookup") 
+        or seg:has_tag("reverse_stroke") 
+        or seg:has_tag("add_user_dict")
+    ) or false
 
     -- 遍历输入的候选词
     for cand in input:iter() do
