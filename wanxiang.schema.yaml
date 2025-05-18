@@ -504,8 +504,9 @@ speller:
     - xform/(.)ou(\d)$/$1Ⓑ$2/
     - xform/in(\d)$/Ⓝ$1/
     - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⓂⒿⒸⓀⓁⓏⓍⓋⒷⓃ/qwrtyuiopsdfghmjcklzxvbn/
-    #- abbrev/^([a-z]).+$/$1/   #简拼
     - derive/^(..)(\d)$/$1/
+    - derive/^(.).+(\d)$/$1$2/
+    #- abbrev/^([a-z]).+$/$1/   #简拼
 自然龙:      #原作者项目地址： https://github.com/rimeinn/rime-zrlong
   __append:
     - xform/^(ā|á|ǎ|à)([ioun])$/a$1$2/
@@ -633,8 +634,9 @@ speller:
     - xform/ui(\d)$/Ⓥ$1/
     - xform/in(\d)$/Ⓑ$1/
     - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⒿⓀⓁⓏⓍⒸⓋⒷⓃⓂ/qwrtyuiopsdfghjklzxcvbnm/
-    #- abbrev/^([a-z]).+$/$1/   #简拼
     - derive/^(..)(\d)$/$1/
+    - derive/^(.).+(\d)$/$1$2/
+    #- abbrev/^([a-z]).+$/$1/   #简拼
 搜狗双拼: 
   __append:
     - xform/^([a-z]+)$/$1④/
@@ -699,8 +701,9 @@ speller:
     - xform/in(\d)$/Ⓝ$1/
     - xform/ing(\d)$/;$1/
     - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⓂⒿⒸⓀⓁⓏⓍⓋⒷⓃ/qwrtyuiopsdfghmjcklzxvbn/
-    #- abbrev/^([a-z]).+$/$1/   #简拼
     - derive/^(..)(\d)$/$1/
+    - derive/^(.).+(\d)$/$1$2/
+    #- abbrev/^([a-z]).+$/$1/   #简拼
 微软双拼: 
   __append:
     - xform/^([a-z]+)$/$1④/
@@ -766,8 +769,9 @@ speller:
     - xform/in(\d)$/Ⓝ$1/
     - xform/ing(\d)$/;$1/
     - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⓂⒿⒸⓀⓁⓏⓍⓋⒷⓃ/qwrtyuiopsdfghmjcklzxvbn/
-    #- abbrev/^([a-z]).+$/$1/   #简拼
     - derive/^(..)(\d)$/$1/
+    - derive/^(.).+(\d)$/$1$2/
+    #- abbrev/^([a-z]).+$/$1/   #简拼
 智能ABC:
   __append:
     - xform/^([a-z]+)$/$1④/
@@ -828,8 +832,9 @@ speller:
     - xform/un(\d)$/Ⓝ$1/
     - xform/[uv]e|ui(\d)$/Ⓜ$1/
     - xlit/ⓆⓌⒺⓇⓉⓎⓄⓅⒶⓈⒹⒻⒼⒽⒿⓀⓁⓏⓍⒸⓋⒷⓃⓂ/qwertyopasdfghjklzxcvbnm/
-    #- abbrev/^([a-z]).+$/$1/   #简拼
     - derive/^(..)(\d)$/$1/
+    - derive/^(.).+(\d)$/$1$2/
+    #- abbrev/^([a-z]).+$/$1/   #简拼
 紫光双拼:
   __append:
     - xform/^([a-z]+)$/$1④/
@@ -891,8 +896,9 @@ speller:
     - xform/ao(\d)$/Ⓠ$1/
     - xform/an(\d)$/Ⓡ$1/
     - xlit/ⓌⓉⓎⓊⒾⓄⓅⒶⒼⓈⒹⒻⒽⒿⓀⓁⓏⓍⒷⓃⓂⓆⓇ/wtyuiopagsdfhjklzxbnmqr/
-    #- abbrev/^([a-z]).+$/$1/   #简拼
     - derive/^(..)(\d)$/$1/
+    - derive/^(.).+(\d)$/$1$2/
+    #- abbrev/^([a-z]).+$/$1/   #简拼
 
 乱序17:  
   __append:
