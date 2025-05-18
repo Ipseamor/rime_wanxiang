@@ -144,8 +144,13 @@ function ZH.func(input, env)
             end
         else
             -- 如果辅助码显示被关闭，则清空注释
-            final_comment = ""
-
+            if final_comment ~= initial_comment then
+                -- 有其他模块修改过注释，保留
+            elseif input_str:match("^/") or input_str:match("^o") then
+            else
+                -- 其他情况清空
+                final_comment = ""
+            end
         end
 
         -- 处理错音错词提示
