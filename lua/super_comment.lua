@@ -130,7 +130,7 @@ function ZH.func(input, env)
         or seg:has_tag("reverse_stroke") 
         or seg:has_tag("add_user_dict")
     ) or false
-
+    local input_str = env.engine.context.input or ""
     -- 遍历输入的候选词
     for cand in input:iter() do
         local initial_comment = cand.comment
