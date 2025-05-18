@@ -43,6 +43,7 @@ function M.init(env)
     local user_lua_dir = rime_api.get_user_data_dir() .. "/lua"
     if dist ~= "hamster" and dist ~= "Weasel" then
         ensure_dir_exist(user_lua_dir)
+        ensure_dir_exist(user_lua_dir .. "/tips")
     end
 
     local db = wrapLevelDb('lua/tips', true)
