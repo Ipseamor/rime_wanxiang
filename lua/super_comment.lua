@@ -146,7 +146,7 @@ function ZH.func(input, env)
             -- 如果辅助码显示被关闭，则清空注释
             if final_comment ~= initial_comment then
                 -- 有其他模块修改过注释，保留
-            elseif input_str:match("^/") or input_str:match("^o") then
+            elseif input_str:match("^/") or input_str:match("^R") or input_str:match("^N") or input_str:match("^V") or input_str:match("^U") then
             else
                 -- 其他情况清空
                 final_comment = ""
