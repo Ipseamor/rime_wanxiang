@@ -3,8 +3,8 @@ local function modify_preedit_filter(input, env)
     local delimiter = config:get_string('speller/delimiter') or " '"
 
     -- 从 YAML 配置读取参数
-    local tone_isolate = config:get_bool("speller/tone_isolate")      -- 是否将数字声调从转换后拼音中隔离出来（true=隔离， false 直接参与转换）
-    local visual_delim = config:get_string("speller/visual_delimiter") or " "  -- 定义转换后的分隔符号，如果方案中设置的'作为分隔符号那么在变成拼音后视觉拥挤
+    local tone_isolate = config:get_bool("speller/tone_isolate")      -- 是否将数字声调从转换后拼音中隔离出来
+    local visual_delim = config:get_string("speller/visual_delimiter") or " "  -- 定义转换后的分隔符号
 
     env.settings = { tone_display = env.engine.context:get_option("tone_display") } or false
     local auto_delimiter = delimiter:sub(1, 1)
@@ -60,6 +60,7 @@ local function modify_preedit_filter(input, env)
                 table.insert(pinyin_segments, pinyin)
             end
         end
+
         -- 替换逻辑
         local pinyin_index = 1
         for i, part in ipairs(input_parts) do
@@ -72,10 +73,16 @@ local function modify_preedit_filter(input, env)
                 if py then
                     if i == #input_parts and #part == 1 then
                         local prefix = py:sub(1, 2)
-                        if prefix == "zh" or prefix == "ch" or prefix == "sh" then
-                            input_parts[i] = prefix
+                        -- 添加对原始输入首字母的判断,如果首选是“吃”就会转换为ch，但整体来看略显突兀，因此控制csz不转换
+                        local first_char = part:sub(1,1):lower()
+                        if first_char == "s" or first_char == "c" or first_char == "z" then
+                            input_parts[i] = part  -- 保持原始输入不转换
                         else
-                            input_parts[i] = part
+                            if prefix == "zh" or prefix == "ch" or prefix == "sh" then
+                                input_parts[i] = prefix
+                            else
+                                input_parts[i] = part
+                            end
                         end
                     else
                         if tone_isolate then
